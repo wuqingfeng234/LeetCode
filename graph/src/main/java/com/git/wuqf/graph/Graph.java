@@ -9,7 +9,6 @@ public class Graph {
 
     public Graph(int[][] edges) {
 
-
         for (int i = 0; i < edges.length; i++) {
             vertexes.add(edges[i][0]);
             vertexes.add(edges[i][1]);
@@ -35,18 +34,13 @@ public class Graph {
     }
 
     public List<Integer> deleteStartVertex() {
-        Map<Integer, Integer> vertexInDegree = new HashMap<Integer, Integer>();
+        Set<Integer> vertexInDegree = new HashSet<Integer>();
         List<Integer> deletedVertex = new ArrayList<Integer>();
 
-
         for (int[] e : edges) {
-
             int startVertex = e[1];
-            if (!vertexInDegree.containsKey(startVertex)) {
-                vertexInDegree.put(startVertex, 1);
-            } else {
-                vertexInDegree.put(startVertex, vertexInDegree.get(startVertex) + 1);
-            }
+            vertexInDegree.add(startVertex);
+
         }
 
         Iterator<int[]> ie = edges.iterator();
@@ -54,13 +48,12 @@ public class Graph {
         while (ie.hasNext()) {
             int[] e = ie.next();
             Integer key = e[0];
-            if (!vertexInDegree.containsKey(key)) {
+            if (!vertexInDegree.contains(key)) {
                 ie.remove();
                 deletedVertex.add(key);
             }
         }
         return deletedVertex;
     }
-
 
 }
