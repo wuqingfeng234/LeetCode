@@ -19,17 +19,6 @@ public class Graph {
         }
     }
 
-    public Set<Integer> getVertexes() {
-        return vertexes;
-    }
-
-    public void setVertexes(Set<Integer> vertexes) {
-        this.vertexes = vertexes;
-    }
-
-    public void setAdjacencyTable(List<int[]> adjacencyTable) {
-        this.adjacencyTable = adjacencyTable;
-    }
 
     public List<int[]> getAdjacencyTable() {
         return adjacencyTable;
