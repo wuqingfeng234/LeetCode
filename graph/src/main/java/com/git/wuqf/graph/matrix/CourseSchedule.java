@@ -21,7 +21,7 @@ public class CourseSchedule {
             hasStartVertex = g.deleteStartVertex(numCourses);
         }
         boolean s= g.canSort(numCourses);
-        Long t=(System.currentTimeMillis()-currentTime)/1000;
+        Long t=(System.currentTimeMillis()-currentTime);
         System.out.println(t);
         return s;
     }
