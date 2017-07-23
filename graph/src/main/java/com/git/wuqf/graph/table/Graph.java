@@ -8,8 +8,8 @@ public class Graph {
     private List<int[]> adjacencyTable;
 
     public Graph(int numCourses, int[][] edges) {
-        vertexes = new HashSet<Integer>(numCourses*2);
-        adjacencyTable = new ArrayList<int[]>(numCourses*2);
+        vertexes = new HashSet<Integer>(numCourses);
+        adjacencyTable = new ArrayList<int[]>(numCourses);
 
         for (int i = 0; i < numCourses; i++) {
             this.vertexes.add(i);
@@ -36,9 +36,9 @@ public class Graph {
     }
 
 
-    public List<Integer> deleteStartVertex() {
+    public boolean deleteStartVertex() {
         Set<Integer> vertexInDegree = new HashSet<Integer>();
-        List<Integer> deletedVertex = new ArrayList<Integer>();
+        boolean deletedVertex=false;
 
         for (int[] e : adjacencyTable) {
             int startVertex = e[1];
@@ -53,7 +53,7 @@ public class Graph {
             Integer key = e[0];
             if (!vertexInDegree.contains(key)) {
                 ie.remove();
-                deletedVertex.add(key);
+                deletedVertex=true;
             }
         }
         return deletedVertex;

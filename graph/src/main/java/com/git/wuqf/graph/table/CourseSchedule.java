@@ -13,15 +13,16 @@ public class CourseSchedule {
     public static boolean canFinish(int numCourses, int[][] prerequisites) {
         Long currentTime=System.currentTimeMillis();
         Graph g=new Graph(numCourses,prerequisites);
-        List<Integer> deleteVertex=g.deleteStartVertex();
-        while(deleteVertex.size()>0){
-            deleteVertex=g.deleteStartVertex();
+        boolean deletedVertex=g.deleteStartVertex();
+
+        while(deletedVertex){
+            deletedVertex=g.deleteStartVertex();
         }
         if(g.getAdjacencyTable().size()>0){
             return false;
         }
         Long t=(System.currentTimeMillis()-currentTime);
-        System.out.println(t);
+
         return true;
     }
 
