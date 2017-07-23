@@ -1,4 +1,4 @@
-package com.git.wuqf.graph;
+package com.git.wuqf.graph.table;
 
 import java.util.*;
 
