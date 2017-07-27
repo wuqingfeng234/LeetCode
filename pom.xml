@@ -11,6 +11,7 @@
     <modules>
         <module>graph</module>
         <module>tree</module>
+        <module>common</module>
     </modules>
 
     <build>
