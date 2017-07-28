@@ -1,4 +1,4 @@
-package com.git.wuqf.graph.table;
+package com.git.wuqf.graph.courseschedule.table;
 
 import java.util.*;
 

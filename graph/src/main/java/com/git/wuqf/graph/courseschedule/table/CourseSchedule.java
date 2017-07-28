@@ -1,7 +1,4 @@
-package com.git.wuqf.graph.matrix;
-
-
-import java.util.List;
+package com.git.wuqf.graph.courseschedule.table;
 
 public class CourseSchedule {
     public static void main(String[] args) {
@@ -12,17 +9,20 @@ public class CourseSchedule {
     }
 
     public static boolean canFinish(int numCourses, int[][] prerequisites) {
-
         Long currentTime=System.currentTimeMillis();
-        Graph g = new Graph(numCourses, prerequisites);
+        Graph g=new Graph(numCourses,prerequisites);
+        boolean deletedVertex=g.deleteStartVertex();
 
-        boolean hasStartVertex = true;
-        while (hasStartVertex) {
-            hasStartVertex = g.deleteStartVertex(numCourses);
+        while(deletedVertex){
+            deletedVertex=g.deleteStartVertex();
         }
-        boolean s= g.canSort(numCourses);
+        if(g.getAdjacencyTable().size()>0){
+            return false;
+        }
         Long t=(System.currentTimeMillis()-currentTime);
-        System.out.println(t);
-        return s;
+
+        return true;
     }
+
+
 }
