@@ -18,19 +18,15 @@ public class Solution206 {
     }
 
     public ListNode reverseList(ListNode head) {
-        if (head.next == null) {
-            return head;
-        }
-        ListNode pre = null;
-        ListNode current = head;
-        while (current != null) {
-            ListNode next = current.next;
+        return rec(head, null);
+    }
 
-            current.next = pre;
-
-            pre = current;
-            current = next;
+    private ListNode rec(ListNode head, ListNode pre) {
+        if (head == null) {
+            return pre;
         }
-        return pre;
+        ListNode newHead = rec(head.next, head);
+        head.next = pre;
+        return newHead;
     }
 }
