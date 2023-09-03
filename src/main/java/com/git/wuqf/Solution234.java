@@ -1,5 +1,6 @@
 package com.git.wuqf;
 
+import javax.swing.*;
 import java.util.Stack;
 
 public class Solution234 {
@@ -7,13 +8,13 @@ public class Solution234 {
         ListNode l1 = new ListNode(1);
         ListNode l2 = new ListNode(2);
         ListNode l3 = new ListNode(3);
-//        ListNode l4 = new ListNode(3);
+        ListNode l4 = new ListNode(3);
         ListNode l5 = new ListNode(2);
-        ListNode l6 = new ListNode(2);
+        ListNode l6 = new ListNode(1);
         l1.next = l2;
         l2.next = l3;
-        l3.next = l5;
-        //l4.next = l5;
+        l3.next = l4;
+        l4.next = l5;
         l5.next = l6;
         Solution234 solution234 = new Solution234();
         boolean palindrome = solution234.isPalindrome(l1);
@@ -21,20 +22,51 @@ public class Solution234 {
     }
 
     public boolean isPalindrome(ListNode head) {
-        Stack<ListNode> stack = new Stack();
-        ListNode current = head;
-        while (current != null) {
-            stack.add(current);
-            current = current.next;
+        //get middle
+        ListNode fast = head;
+        ListNode slow = head;
+        while (fast.next != null && fast.next.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
         }
-        current = head;
-        while (current != null) {
-            ListNode reverse = stack.pop();
-            if (current.val != reverse.val) {
-                return false;
+        ListNode middle = slow;
+
+        //reverse right
+        ListNode pre = middle;
+        ListNode cur = middle.next;
+        while (cur != null) {
+            ListNode next = cur.next;
+            cur.next = pre;
+
+            pre = cur;
+            cur = next;
+        }
+        ListNode rightHead = pre;
+        middle.next = null;
+
+        //compare
+        boolean flag = true;
+        ListNode leftCur = head;
+        ListNode rightCur = rightHead;
+        while (leftCur != null && rightCur != null) {
+            if (leftCur.val != rightCur.val) {
+                flag = false;
+                break;
             }
-            current = current.next;
+            leftCur = leftCur.next;
+            rightCur = rightCur.next;
         }
-        return true;
+        //resume right
+        ListNode rightPre = null;
+        rightCur = rightHead;
+        while (rightCur != middle) {
+            ListNode next = rightCur.next;
+            rightCur.next = rightPre;
+
+            rightPre = rightCur;
+            rightCur = next;
+        }
+        middle.next=rightPre;
+        return flag;
     }
 }
