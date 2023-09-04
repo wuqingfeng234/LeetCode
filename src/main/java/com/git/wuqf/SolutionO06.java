@@ -1,5 +1,6 @@
 package com.git.wuqf;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class SolutionO06 {
@@ -9,23 +10,24 @@ public class SolutionO06 {
         ListNode l3 = new ListNode(3);
         l1.next = l2;
         l2.next = l3;
-        SolutionO06 solutionO06=new SolutionO06();
+        SolutionO06 solutionO06 = new SolutionO06();
         int[] ints = solutionO06.reversePrint(l1);
         System.out.println("x");
     }
 
+    ArrayList<Integer> tmp = new ArrayList<Integer>();
+
     public int[] reversePrint(ListNode head) {
-        Stack<Integer> s = new Stack();
-        ListNode cur = head;
-        while (cur != null) {
-            s.add(cur.val);
-            cur = cur.next;
-        }
-        int size = s.size();
-        int[] ans = new int[s.size()];
-        for (int i = 0; i < size; i++) {
-            ans[i] = s.pop();
-        }
-        return ans;
+        recur(head);
+        int[] res = new int[tmp.size()];
+        for (int i = 0; i < res.length; i++)
+            res[i] = tmp.get(i);
+        return res;
+    }
+
+    void recur(ListNode head) {
+        if (head == null) return;
+        recur(head.next);
+        tmp.add(head.val);
     }
 }
