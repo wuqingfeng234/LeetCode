@@ -22,51 +22,20 @@ public class Solution234 {
     }
 
     public boolean isPalindrome(ListNode head) {
-        //get middle
-        ListNode fast = head;
-        ListNode slow = head;
-        while (fast.next != null && fast.next.next != null) {
-            fast = fast.next.next;
-            slow = slow.next;
-        }
-        ListNode middle = slow;
-
-        //reverse right
-        ListNode pre = middle;
-        ListNode cur = middle.next;
+        Stack<ListNode> stack = new Stack();
+        ListNode cur = head;
         while (cur != null) {
-            ListNode next = cur.next;
-            cur.next = pre;
-
-            pre = cur;
-            cur = next;
+            stack.add(cur);
+            cur = cur.next;
         }
-        ListNode rightHead = pre;
-        middle.next = null;
-
-        //compare
-        boolean flag = true;
-        ListNode leftCur = head;
-        ListNode rightCur = rightHead;
-        while (leftCur != null && rightCur != null) {
-            if (leftCur.val != rightCur.val) {
-                flag = false;
-                break;
+        cur = head;
+        while (cur != null) {
+            ListNode stackNode = stack.pop();
+            if (stackNode.val != cur.val) {
+                return false;
             }
-            leftCur = leftCur.next;
-            rightCur = rightCur.next;
+            cur=cur.next;
         }
-        //resume right
-        ListNode rightPre = null;
-        rightCur = rightHead;
-        while (rightCur != middle) {
-            ListNode next = rightCur.next;
-            rightCur.next = rightPre;
-
-            rightPre = rightCur;
-            rightCur = next;
-        }
-        middle.next=rightPre;
-        return flag;
+        return true;
     }
 }
