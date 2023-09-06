@@ -14,23 +14,29 @@ public class Solution705 {
         System.out.println(contains);
     }
 
-
-    boolean[] keys;
+    int[] keys;
 
     public Solution705() {
-        keys = new boolean[1000001];
+        keys = new int[40000];
     }
 
     public void add(int key) {
-        keys[key] = true;
+        int bucket = key / 32;
+        int p = key % 32;
+        keys[bucket] = keys[bucket] | (1 << p);
     }
 
     public void remove(int key) {
-        keys[key] = false;
+        int bucket = key / 32;
+        int p = key % 32;
+        keys[bucket] = keys[bucket] & ~(1 << p);
     }
 
     public boolean contains(int key) {
-        return keys[key];
+        int bucket = key / 32;
+        int p = key % 32;
+        int v = (keys[bucket] >> p) & 1;
+        return v == 1;
     }
 }
 /**
