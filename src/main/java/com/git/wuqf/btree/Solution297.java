@@ -19,17 +19,30 @@ public class Solution297 {
     // Encodes a tree to a single string.
     public Queue serialize(TreeNode root) {
         Queue<Integer> ans = new LinkedList<>();
-        pres(root, ans);
+        levels(root, ans);
         return ans;
     }
 
-    private void pres(TreeNode cur, Queue<Integer> ans) {
-        if (cur == null) {
-            ans.add(null);
-        } else {
-            ans.add(cur.val);
-            pres(cur.left, ans);
-            pres(cur.right, ans);
+    private void levels(TreeNode root, Queue<Integer> ans) {
+        if (root != null) {
+            Queue<TreeNode> help = new LinkedList<>();
+            help.add(root);
+            ans.add(root.val);
+            while (!help.isEmpty()) {
+                TreeNode poll = help.poll();
+                if (poll.left != null) {
+                    help.add(poll.left);
+                    ans.add(poll.left.val);
+                } else {
+                    ans.add(null);
+                }
+                if (poll.right != null) {
+                    help.add(poll.right);
+                    ans.add(poll.right.val);
+                } else {
+                    ans.add(null);
+                }
+            }
         }
     }
 
@@ -38,18 +51,40 @@ public class Solution297 {
         if (queue == null || queue.isEmpty()) {
             return null;
         }
-        return pred(queue);
+        return leveld(queue);
     }
 
-    private TreeNode pred(Queue<Integer> queue) {
-        Integer poll = queue.poll();
-        if (poll == null) {
+    private TreeNode leveld(Queue<Integer> levelList) {
+        Integer poll = levelList.poll();
+        TreeNode head = generateNode(poll.intValue());
+        if (head == null) {
             return null;
         }
-        TreeNode treeNode = new TreeNode(poll.intValue());
-        treeNode.left = pred(queue);
-        treeNode.right = pred(queue);
-        return treeNode;
+        Queue<TreeNode> help = new LinkedList<>();
+        help.add(head);
+        while (!help.isEmpty()) {
+            TreeNode treeNode = help.poll();
+            Integer left = levelList.poll();
+            if (left != null) {
+                treeNode.left = generateNode(left);
+                help.add(treeNode.left);
+            }
+            Integer right = levelList.poll();
+            if (right != null) {
+                treeNode.right = generateNode(right);
+                help.add(treeNode.right);
+            }
+        }
+        return head;
     }
+
+    private TreeNode generateNode(Integer val) {
+        if (val == null) {
+            return null;
+        } else {
+            return new TreeNode(val);
+        }
+    }
+
 
 }
