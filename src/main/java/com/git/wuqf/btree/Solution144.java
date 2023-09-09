@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Stack;
 
 public class Solution144 {
-    List<Integer> ans = new ArrayList<>();
+
     public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
         if (root == null) {
             return ans;
         }
