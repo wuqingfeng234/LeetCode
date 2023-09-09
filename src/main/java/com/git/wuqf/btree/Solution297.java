@@ -23,13 +23,13 @@ public class Solution297 {
         return ans;
     }
 
-    private void pres(TreeNode cur, Queue<Integer> queue) {
+    private void pres(TreeNode cur, Queue<Integer> ans) {
         if (cur == null) {
-            queue.add(null);
+            ans.add(null);
         } else {
-            queue.add(cur.val);
-            pres(cur.left, queue);
-            pres(cur.right, queue);
+            ans.add(cur.val);
+            pres(cur.left, ans);
+            pres(cur.right, ans);
         }
     }
 
