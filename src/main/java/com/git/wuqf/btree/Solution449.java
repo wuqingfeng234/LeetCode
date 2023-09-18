@@ -1,6 +1,7 @@
 package com.git.wuqf.btree;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class Solution449 {
@@ -19,61 +20,42 @@ public class Solution449 {
 
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
+        Queue<Integer> list = new LinkedList<>();
+        preserialize(root, list);
+        return queue2String(list);
+
+    }
+
+    private void preserialize(TreeNode root, Queue<Integer> list) {
         if (root == null) {
-            return null;
+            list.add(null);
+        } else {
+            list.add(root.val);
+            preserialize(root.left, list);
+            preserialize(root.right, list);
         }
-        Queue<TreeNode> help = new LinkedList<>();
-        Queue<Integer> ans = new LinkedList<>();
-        help.add(root);
-        ans.add(root.val);
-        while (!help.isEmpty()) {
-            TreeNode poll = help.poll();
-            TreeNode left = poll.left;
-            if (left != null) {
-                help.add(left);
-                ans.add(left.val);
-            } else {
-                ans.add(null);
-            }
-            TreeNode right = poll.right;
-            if (right != null) {
-                help.add(right);
-                ans.add(right.val);
-            } else {
-                ans.add(null);
-            }
-        }
-        return queue2String(ans);
     }
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        if (data.isEmpty()) {
-            return new TreeNode();
-        }
-        Queue<Integer> queue = string2Quque(data);
-        Integer value = queue.poll();
-        if (value == null) {
+        if (data == null || data.isEmpty()) {
             return null;
         }
-        Queue<TreeNode> help = new LinkedList<>();
-        TreeNode head = new TreeNode(value);
-        help.add(head);
-        while (!help.isEmpty()) {
-            TreeNode poll = help.poll();
-            Integer leftValue = queue.poll();
-            if (leftValue != null) {
-                poll.left = new TreeNode(leftValue);
-                help.add(poll.left);
-            }
-            Integer rightValue = queue.poll();
-            if (rightValue != null) {
-                poll.right = new TreeNode(rightValue);
-                help.add(poll.right);
-            }
-        }
-        return head;
+        Queue<Integer> queue = string2Quque(data);
+        return predesialize(queue);
     }
+
+    private TreeNode predesialize(Queue<Integer> source) {
+        Integer poll = source.poll();
+        if (poll == null) {
+            return null;
+        }
+        TreeNode treeNode = new TreeNode(poll);
+        treeNode.left = predesialize(source);
+        treeNode.right = predesialize(source);
+        return treeNode;
+    }
+
 
     private String queue2String(Queue<Integer> queue) {
         StringBuilder sb = new StringBuilder();
