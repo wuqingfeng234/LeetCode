@@ -1,6 +1,12 @@
 package com.git.wuqf.unionfind;
 
 public class Solution547 {
+    public static void main(String[] args) {
+        int[][] x={{1,1,0},{1,1,0},{0,0,1}};
+        Solution547 solution547=new Solution547();
+        int circleNum = solution547.findCircleNum(x);
+        System.out.println(circleNum);
+    }
     public int findCircleNum(int[][] isConnected) {
         UnionFind unionFind = new UnionFind(isConnected.length);
         for (int i = 0; i < isConnected.length; i++) {
@@ -34,8 +40,8 @@ public class Solution547 {
             int[] help = new int[length];
             int hi = 0;
             while (i != parent[i]) {
-                help[hi++] = i;
                 i = parent[i];
+                help[hi++] = i;
             }
             for (int j = hi - 1; j >= 0; j--) {
                 parent[help[j]] = i;
@@ -46,7 +52,7 @@ public class Solution547 {
         public void union(int i, int j) {
             int ih = findHead(i);
             int jh = findHead(j);
-            if (jh != jh) {
+            if (ih != jh) {
                 if (size[ih] >= size[jh]) {
                     parent[jh] = ih;
                     size[ih] += size[jh];
