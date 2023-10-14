@@ -1,36 +1,42 @@
 package com.git.wuqf;
 
-import java.util.List;
+
+import java.util.PriorityQueue;
 
 public class Solution23 {
 
     public ListNode mergeKLists(ListNode[] lists) {
-        ListNode listNode = null;
-        for (int i = 0; i < lists.length; i++) {
-            listNode = mergeTwoLists(listNode, lists[i]);
-        }
-        return listNode;
-    }
-
-    private ListNode mergeTwoLists(ListNode a, ListNode b) {
-        if (a == null || b == null) {
-            return a == null ? b : a;
+        PriorityQueue<Status> queue = new PriorityQueue<>();
+        for (ListNode listNode : lists) {
+            if (listNode != null) {
+                queue.offer(new Status(listNode.val, listNode));
+            }
         }
         ListNode preHead = new ListNode(0);
         ListNode cur = preHead;
-        ListNode acur = a;
-        ListNode bcur = b;
-        while (acur != null && bcur != null) {
-            if (acur.val <= bcur.val) {
-                cur.next = acur;
-                acur = acur.next;
-            } else {
-                cur.next = bcur;
-                bcur = bcur.next;
-            }
+        while (!queue.isEmpty()) {
+            Status poll = queue.poll();
+            cur.next = poll.ptr;
             cur = cur.next;
+            if (poll.ptr.next != null) {
+                queue.offer(new Status(poll.ptr.next.val, poll.ptr.next));
+            }
         }
-        cur.next = acur == null ? bcur : acur;
         return preHead.next;
+    }
+
+    class Status implements Comparable<Status> {
+        int val;
+        ListNode ptr;
+
+        Status(int val, ListNode ptr) {
+            this.val = val;
+            this.ptr = ptr;
+        }
+
+        @Override
+        public int compareTo(Status o) {
+            return this.val - o.val;
+        }
     }
 }
